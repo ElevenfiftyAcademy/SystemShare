@@ -1,0 +1,10 @@
+@import url("https://overpass-30e2.kxcdn.com/overpass.css");
+
+body {
+  background: url("../images/blu-stripes.png") #d3d3d3;
+  font-family: "Overpass";
+}
+
+p {
+  font-weight: 400;
+}

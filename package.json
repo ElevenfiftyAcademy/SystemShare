@@ -1,0 +1,18 @@
+{
+  "name": "efasystemshare",
+  "version": "1.0.0",
+  "description": "An application to assist detecting potential student's hardware/software specs",
+  "main": "application.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Adam Jayne",
+  "license": "ISC",
+  "dependencies": {
+    "systeminformation": "^4.27.9"
+  },
+  "devDependencies": {
+    "electron": "^10.1.3"
+  }
+}
