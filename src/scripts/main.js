@@ -1,46 +1,77 @@
 const SystemInformation = require("systeminformation");
 
 const mainView = document.getElementById("main");
+const emailInput = document.getElementById("emailEntry");
+const classSelect = document.getElementById("classSelect");
 const runButton = document.getElementById("systemDetectionButton");
 const specDisplay = document.getElementById("specDisplay");
 
+let emailValue = "";
+let chosenClass = "";
+
 runButton.addEventListener("click", generateSystemInformation);
+emailInput.addEventListener("keyup", (e) => {
+  emailValue = e.target.value;
+});
+classSelect.addEventListener("change", (e) => {
+  chosenClass = e.target.value;
+});
 
 async function generateSystemInformation() {
   /*
     This function's purpose is to sequentially retrieve the system's specifications.
   */
-  try {
-    let { manufactuerer, brand, physicalCores } = await SystemInformation.cpu();
-    let disks = (await SystemInformation.diskLayout()).map(
-      ({ name, size, type }) => ({
-        name,
-        size: getSize(size),
-        type,
-      })
-    );
-    let memory = getSize((await SystemInformation.mem()).total);
-    let { distro, release } = await SystemInformation.osInfo();
-    let graphicsDevices = (await SystemInformation.graphics()).controllers.map(
-      ({ model }) => model
-    );
-    const specs = {
-      cpu: {
-        manufactuerer,
+  if (emailValue && chosenClass) {
+    try {
+      let {
+        manufacturer,
         brand,
-        cores: physicalCores,
-      },
-      disks,
-      memory,
-      os: {
-        distro,
-        release,
-      },
-      graphicsDevices,
-    };
-    displaySpecifications(specs);
-  } catch (e) {
-    console.log(e);
+        physicalCores,
+      } = await SystemInformation.cpu();
+      let disks = (await SystemInformation.diskLayout()).map(
+        ({ name, size, type }) => ({
+          name,
+          size: getSize(size),
+          type,
+        })
+      );
+      let memory = getSize((await SystemInformation.mem()).total);
+      let { platform, release } = await SystemInformation.osInfo();
+      let graphicsDevices = (
+        await SystemInformation.graphics()
+      ).controllers.map(({ model }) => ({ model }));
+      const specs = {
+        cpu: {
+          manufacturer,
+          brand,
+          cores: physicalCores,
+        },
+        disks,
+        memory,
+        os: {
+          platform,
+          release,
+        },
+        gpu: graphicsDevices,
+        email: emailValue,
+        classChoice: chosenClass,
+      };
+      console.log(specs);
+      let response = await (
+        await fetch("http://localhost:3000/api/systeminfo/report", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(specs),
+        })
+      ).json();
+      console.log(response);
+      displaySpecifications(specs);
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
   }
 }
 
@@ -53,7 +84,7 @@ function displaySpecifications(specifications) {
   const disksSection = document.createElement("div");
   const graphicsSection = document.createElement("div");
 
-  osElement.innerText = `${specifications.os.distro} ${specifications.os.release}`;
+  osElement.innerText = `${specifications.os.platform} ${specifications.os.release}`;
   cpuElement.innerText = `${specifications.cpu.brand} with ${specifications.cpu.cores} cores`;
   memoryElement.innerText = specifications.memory + " of RAM";
   disksSection.appendChild(document.createElement("p"));
@@ -78,9 +109,12 @@ function displaySpecifications(specifications) {
 function getSize(bytes) {
   // Converts bytes to their respective metric factor value
   const factor = 1024;
-  for (let unit of ["", "K", "M", "G", "T", "P"]) {
+  for (let unit of ["B", "KB", "MB", "GB", "TB", "PB"]) {
     if (bytes < factor) {
-      return `${Math.ceil(bytes)}${unit}B`;
+      return {
+        amount: Math.ceil(bytes),
+        unit,
+      };
     }
     bytes /= factor;
   }

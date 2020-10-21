@@ -22,13 +22,22 @@
         <p>
           Your information will be verified with our IT department, and should
           it not meet our minimum requirements you should expect to be contacted
-          via your admissions officer for next steps. Don't worry, no computer
-          is perfect!
+          via your admissions officer for next steps.
         </p>
+        <p>Don't worry, no computer is perfect!</p>
       </div>
       <div class="emailInput">
-        <p>Please enter your email:</p>
+        <label>Please enter your email:</label>
         <input type="text" id="emailEntry" />
+      </div>
+      <div class="classInput">
+        <label>Please select your class:</label>
+        <select id="classSelect">
+          <option disabled selected value="">Please Select:</option>
+          <option value="SD">Software Development</option>
+          <option value="WD">Web Development</option>
+          <option value="CB">Cybersecurity</option>
+        </select>
       </div>
       <div id="runSystemDetection">
         <button id="systemDetectionButton">Run system detection</button>
