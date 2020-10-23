@@ -4,7 +4,11 @@ const mainView = document.getElementById("main");
 const emailInput = document.getElementById("emailEntry");
 const classSelect = document.getElementById("classSelect");
 const runButton = document.getElementById("systemDetectionButton");
-const specDisplay = document.getElementById("specDisplay");
+const cardbody = document.getElementById("form");
+const spinner = document.getElementById('spinner');
+const finalMessage = document.getElementById('finalMessage');
+
+const myCard = document.getElementById('myCard');
 
 let emailValue = "";
 let chosenClass = "";
@@ -21,7 +25,13 @@ async function generateSystemInformation() {
   /*
     This function's purpose is to sequentially retrieve the system's specifications.
   */
+
   if (emailValue && chosenClass) {
+
+    myCard.classList.add("sizeAfter");
+    cardbody.style.display = "none";
+    spinner.style.display = "block";
+
     try {
       let {
         manufacturer,
@@ -67,43 +77,14 @@ async function generateSystemInformation() {
         })
       ).json();
       console.log(response);
-      displaySpecifications(specs);
+      spinner.style.display = "none";
+      finalMessage.style.display = "block";
+
     } catch (e) {
       console.log(e);
     }
   } else {
   }
-}
-
-function displaySpecifications(specifications) {
-  specDisplay.innerHTML = "";
-  // mainView.style.display = "none";
-  const osElement = document.createElement("p");
-  const cpuElement = document.createElement("p");
-  const memoryElement = document.createElement("p");
-  const disksSection = document.createElement("div");
-  const graphicsSection = document.createElement("div");
-
-  osElement.innerText = `${specifications.os.platform} ${specifications.os.release}`;
-  cpuElement.innerText = `${specifications.cpu.brand} with ${specifications.cpu.cores} cores`;
-  memoryElement.innerText = specifications.memory + " of RAM";
-  disksSection.appendChild(document.createElement("p"));
-  for (let { name, size, type } of specifications.disks) {
-    const diskElement = document.createElement("p");
-    diskElement.innerText = `${size} ${type} ${name}`;
-    disksSection.appendChild(diskElement);
-  }
-  for (let graphicsDevice of specifications.graphicsDevices) {
-    const graphicsElement = document.createElement("p");
-    graphicsElement.innerText = graphicsDevice;
-    graphicsSection.appendChild(graphicsElement);
-  }
-
-  specDisplay.appendChild(osElement);
-  specDisplay.appendChild(cpuElement);
-  specDisplay.appendChild(memoryElement);
-  specDisplay.appendChild(disksSection);
-  specDisplay.appendChild(graphicsSection);
 }
 
 function getSize(bytes) {
