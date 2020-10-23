@@ -1,11 +1,12 @@
 @import url("https://overpass-30e2.kxcdn.com/overpass.css");
 
 body {
-  background-color: #284b63;
+  background-color: #2D2D2D!important;
+  /* background-image: url(./images/transparentbg.png);
   color: #e2e4e7;
   font-family: Arial, Helvetica, sans-serif;
   margin-left: 2em;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased; */
 }
 
 #efalogo {
@@ -22,7 +23,8 @@ input {
 }
 
 button {
-  background-color: #f9f9f9;
+  background-color: #2D2D2D;
+  color: white;
   border: none;
   border-style: none;
   padding: 10px 10px;
@@ -32,4 +34,33 @@ button {
 
 p {
   font-weight: 400;
+}
+
+#main {
+  width: 100%!important;
+  height: 656px!important;
+  margin: auto;
+}
+
+#spinner {
+  display: none;
+}
+
+#finalMessage {
+  display: none;
+}
+
+#myCard {
+  height: 256px!important;
+}
+
+.sizeAfter { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#systemDetectionButton {
+  width: 100%;
 }
