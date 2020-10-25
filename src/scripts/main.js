@@ -68,13 +68,16 @@ async function generateSystemInformation() {
       };
       console.log(specs);
       let response = await (
-        await fetch("http://localhost:3000/api/systeminfo/report", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(specs),
-        })
+        await fetch(
+          "https://system-share-manager.herokuapp.com/api/systeminfo/report",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(specs),
+          }
+        )
       ).json();
       console.log(response);
       spinner.style.display = "none";
