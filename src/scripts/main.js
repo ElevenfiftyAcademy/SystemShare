@@ -1,34 +1,27 @@
 const SystemInformation = require("systeminformation");
 
-const mainView = document.getElementById("main");
 const emailInput = document.getElementById("emailEntry");
-const classSelect = document.getElementById("classSelect");
 const runButton = document.getElementById("systemDetectionButton");
 const cardbody = document.getElementById("form");
 const spinner = document.getElementById('spinner');
 const finalMessage = document.getElementById('finalMessage');
 
-const myCard = document.getElementById('myCard');
+// const myCard = document.getElementById('myCard');
 
 let emailValue = "";
-let chosenClass = "";
 
 runButton.addEventListener("click", generateSystemInformation);
 emailInput.addEventListener("keyup", (e) => {
   emailValue = e.target.value;
 });
-classSelect.addEventListener("change", (e) => {
-  chosenClass = e.target.value;
-});
 
-async function generateSystemInformation() {
+async function generateSystemInformation(e) {
+  e.preventDefault();
   /*
     This function's purpose is to sequentially retrieve the system's specifications.
   */
 
-  if (emailValue && chosenClass) {
-
-    myCard.classList.add("sizeAfter");
+  if (emailValue) {
     cardbody.style.display = "none";
     spinner.style.display = "block";
 
@@ -64,7 +57,6 @@ async function generateSystemInformation() {
         },
         gpu: graphicsDevices,
         email: emailValue,
-        classChoice: chosenClass,
       };
       console.log(specs);
       let response = await (
@@ -79,14 +71,16 @@ async function generateSystemInformation() {
           }
         )
       ).json();
-      console.log(response);
       spinner.style.display = "none";
       finalMessage.style.display = "block";
 
     } catch (e) {
-      console.log(e);
+      cardbody.style.display = "block";
+      spinner.style.display = "none";
+      document.getElementById('errorAlert').style.display = "block";
     }
   } else {
+    document.getElementById('emailError').classList.add('visible');
   }
 }
 

@@ -1,25 +1,15 @@
 @import url("https://overpass-30e2.kxcdn.com/overpass.css");
 
-body {
-  background-color: #2D2D2D!important;
-  /* background-image: url(./images/transparentbg.png);
-  color: #e2e4e7;
-  font-family: Arial, Helvetica, sans-serif;
-  margin-left: 2em;
-  -webkit-font-smoothing: antialiased; */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #efalogo {
   font-weight: bold;
   margin-bottom: 2em;
-  font-family: "Overpass";
-}
-
-input {
-  border-radius: 4px;
-  border-style: none;
-  height: 20px;
-  margin-bottom: 1em;
 }
 
 button {
@@ -37,9 +27,34 @@ p {
 }
 
 #main {
-  width: 100%!important;
-  height: 656px!important;
-  margin: auto;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.left {
+  width: 300px;
+  height: 100%;
+  background: url(https://elevenfifty.org/wp-content/uploads/2019/03/mobile-shield.png) center no-repeat;
+  background-size: cover;
+}
+
+.right {
+  flex-grow: 2;
+  height: 100%;
+  width: max-content;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.visible {
+  display: initial;
+}
+
+#errorAlert {
+  display: none;
 }
 
 #spinner {
@@ -48,17 +63,6 @@ p {
 
 #finalMessage {
   display: none;
-}
-
-#myCard {
-  height: 256px!important;
-}
-
-.sizeAfter { 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
 }
 
 #systemDetectionButton {
